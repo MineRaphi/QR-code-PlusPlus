@@ -1,2 +1,2 @@
 # QR-code-PlusPlus
- A project where i can try out different things and sometimes work on
+A project to increase the size of a Version 2 QR-Code by using colors to store a value in the octal system
