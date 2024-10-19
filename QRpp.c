@@ -41,28 +41,28 @@ int main() {
         for(int j=2; j>=0; j--) {
             switch(inputOctal[i][j]) {
                 case 0:
-                    printf("\x1b[31m▉"); // Red
+                    printf("\x1b[37m▉");
                     break;
                 case 1:
-                    printf("\x1b[32m▉"); // Green
+                    printf("\x1b[31m▉");
                     break;
                 case 2:
-                    printf("\x1b[33m▉"); // Yellow
+                    printf("\x1b[32m▉");
                     break;
                 case 3:
-                    printf("\x1b[34m▉"); // Blue
+                    printf("\x1b[33m▉");
                     break;
                 case 4:
-                    printf("\x1b[35m▉"); // Magenta
+                    printf("\x1b[34m▉");
                     break;
                 case 5:
-                    printf("\x1b[36m▉"); // Cyan
+                    printf("\x1b[35m▉");
                     break;
                 case 6:
-                    printf("\x1b[37m▉"); // White
+                    printf("\x1b[36m▉");
                     break;
                 case 7:
-                    printf("\x1b[30m▉"); // Black
+                    printf("\x1b[30m▉");
                     break;
             }
         }
