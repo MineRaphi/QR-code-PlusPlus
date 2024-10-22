@@ -1,15 +1,15 @@
 #include <stdio.h>
 
 int main() {
-    char input[64];
-    int inputInt[64];
-    int inputOctal[64][3];
+    char input[108];
+    int inputInt[108];
+    int inputOctal[108][3];
 
     FILE *fptr;
 
     fptr = fopen("input.txt", "r");
 
-    fgets(input, 64, fptr);
+    fgets(input, 108, fptr);
     printf("%s\n", input);
     fclose(fptr);
 
