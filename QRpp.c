@@ -6,8 +6,12 @@ int main() {
     int inputOctal[108][3];
 
     FILE *fptr;
-
     fptr = fopen("input.txt", "r");
+    int width = 3;
+    int height; 
+
+    FILE* output;
+	output = fopen("output.ppm", "wb"); 
 
     fgets(input, 108, fptr);
     printf("%s\n", input);
@@ -37,37 +41,52 @@ int main() {
     }
     printf("\n");
 
+    fprintf(output, "P3\n"); 
+
+    height = strLen;
+    fprintf(output, "%d %d\n", width, height); 
+    fprintf(output, "255\n");
+
     for(int i=0; i<strLen; i++) {
         for(int j=2; j>=0; j--) {
             switch(inputOctal[i][j]) {
                 case 0:
-                    printf("\x1b[37m▉");
+                    printf("black ");
+                    fprintf(output, "0 0 0 ");
                     break;
                 case 1:
-                    printf("\x1b[31m▉");
+                    printf("red ");
+                    fprintf(output, "255 0 0 ");
                     break;
                 case 2:
-                    printf("\x1b[32m▉");
+                    printf("green ");
+                    fprintf(output, "0 255 0 ");
                     break;
                 case 3:
-                    printf("\x1b[33m▉");
+                    printf("blue ");
+                    fprintf(output, "0 0 255 ");
                     break;
                 case 4:
-                    printf("\x1b[34m▉");
+                    printf("yellow ");
+                    fprintf(output, "255 255 0 ");
                     break;
                 case 5:
-                    printf("\x1b[35m▉");
+                    printf("cyan ");
+                    fprintf(output, "0 255 255 ");
                     break;
                 case 6:
-                    printf("\x1b[36m▉");
+                    printf("magenta ");
+                    fprintf(output, "255 0 255 ");
                     break;
                 case 7:
-                    printf("\x1b[30m▉");
+                    printf("white ");
+                    fprintf(output, "255 255 255 ");
                     break;
             }
         }
         printf("\n");
+        fprintf(output, "\n"); 
     }
     printf("\n");
-
+    fprintf(output, "0 0 0\n");
 }
