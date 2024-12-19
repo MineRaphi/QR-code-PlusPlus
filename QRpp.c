@@ -1,92 +1,109 @@
 #include <stdio.h>
+#include <math.h>
+
+#define BLACK "000 000 000"
+#define RED "255 000 000"
+#define GREEN "000 255 000"
+#define BLUE "000 000 255"
+#define YELLOW "255 255 000"
+#define CYAN "000 255 255"
+#define MAGENTA "255 000 255"
+#define WHITE "255 255 255"
+
+#define FILL "128 128 128"
+
+int getInputSize(char filename[]);
+void getInput(char filename[], char input[], int size);
 
 int main() {
-    char input[108];
-    int inputInt[108];
-    int inputOctal[108][3];
-
-    FILE *fptr;
-    fptr = fopen("input.txt", "r");
-    int width = 3;
-    int height; 
-
-    FILE* output;
-	output = fopen("output.ppm", "wb"); 
-
-    fgets(input, 108, fptr);
-    printf("%s\n", input);
-    fclose(fptr);
-
-    int strLen = 0;
-    for(int i=0; input[i] != '\0'; i++) {
-        strLen++;
-    }
-
-    for(int i=0; i<strLen; i++) {
-        inputInt[i] = input[i];
-    }
-
-    for(int i=0; i<strLen; i++) {
+    char filename[] = "input.txt";
+    int size = getInputSize(filename);
+    char input[size];
+    int inputOctal[size][3];
+    getInput(filename, input, size);
+    
+    for(int i=0; i<size; i++) {
         for(int j=0; j<3; j++) {
-            inputOctal[i][j] = inputInt[i] % 8;
-            inputInt[i] = inputInt[i] / 8;
+            inputOctal[i][j] = input[i] % 8;
+            input[i] = input[i] / 8;
         }
     }
 
-    for(int i=0; i<strLen; i++) {
-        for(int j=2; j>=0; j--) {
-            printf("%d", inputOctal[i][j]);
-        }
-        printf(" ");
+    int side = sqrt(size*3);
+
+    if(side*side < size*3) {
+        side++;
     }
-    printf("\n");
 
-    fprintf(output, "P3\n"); 
+    FILE *output;
+    output = fopen("output.ppm", "w");
 
-    height = strLen;
-    fprintf(output, "%d %d\n", width, height); 
+    fprintf(output, "P3\n");
+    fprintf(output, "%d %d\n", side, side);
     fprintf(output, "255\n");
-
-    for(int i=0; i<strLen; i++) {
-        for(int j=2; j>=0; j--) {
-            switch(inputOctal[i][j]) {
+    // WIP
+    for (int i=0; i<size; i++) {
+        for (int k=0; k<3; k++) {
+            switch (inputOctal[i][k]) {
                 case 0:
-                    printf("black ");
-                    fprintf(output, "0 0 0 ");
+                    fprintf(output, BLACK);
                     break;
                 case 1:
-                    printf("red ");
-                    fprintf(output, "255 0 0 ");
+                    fprintf(output, RED);
                     break;
                 case 2:
-                    printf("green ");
-                    fprintf(output, "0 255 0 ");
+                    fprintf(output, GREEN);
                     break;
                 case 3:
-                    printf("blue ");
-                    fprintf(output, "0 0 255 ");
+                    fprintf(output, BLUE);
                     break;
                 case 4:
-                    printf("yellow ");
-                    fprintf(output, "255 255 0 ");
+                    fprintf(output, YELLOW);
                     break;
                 case 5:
-                    printf("cyan ");
-                    fprintf(output, "0 255 255 ");
+                    fprintf(output, CYAN);
                     break;
                 case 6:
-                    printf("magenta ");
-                    fprintf(output, "255 0 255 ");
+                    fprintf(output, MAGENTA);
                     break;
                 case 7:
-                    printf("white ");
-                    fprintf(output, "255 255 255 ");
+                    fprintf(output, WHITE);
                     break;
             }
+            fprintf(output, "  ");
         }
-        printf("\n");
-        fprintf(output, "\n"); 
+        fprintf(output, "\n");
     }
-    printf("\n");
-    fprintf(output, "0 0 0\n");
+
+    for(int i=0; i<(side*side)-size; i++) {
+        fprintf(output, FILL);
+        fprintf(output, "  ");
+    }
+
+    fclose(output);
+    return 0;
+}
+
+int getInputSize(char filename[]) {
+    FILE *file;
+    char ch;
+    int count = 0;
+
+    file = fopen(filename, "r");
+    while ((ch = fgetc(file)) != EOF) {
+        count++;
+    }
+
+    fclose(file);
+    return count;
+}
+
+void getInput(char filename[], char input[], int size) {
+    FILE *file;
+    file = fopen(filename, "r");
+
+    for(int i=0; i<size; i++) {
+        input[i] = fgetc(file);
+    }
+    fclose(file);
 }
